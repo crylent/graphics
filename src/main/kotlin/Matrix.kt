@@ -1,8 +1,8 @@
 class Matrix(arr: Collection<DoubleArray>) : ArrayList<DoubleArray>(arr) {
     // constructor(vararg lines: DoubleArray) : this(lines.map { it })
 
-    private val columns = this[0].size //width
-    private val rows = this.size //height
+    val columns = this[0].size //width
+    val rows = this.size //height
 
     init {
         if (this.isEmpty()) error("It mustn't be empty")
