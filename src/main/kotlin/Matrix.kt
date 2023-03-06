@@ -1,5 +1,9 @@
-class Matrix(arr: Collection<DoubleArray>) : ArrayList<DoubleArray>(arr) {
-    // constructor(vararg lines: DoubleArray) : this(lines.map { it })
+import java.awt.Point
+import java.util.function.UnaryOperator
+
+
+class Matrix(arr: Collection<IntArray>): ArrayList<IntArray>(arr) {
+    constructor(vararg lines: IntArray) : this(lines.map { it })
 
     val columns = this[0].size //width
     val rows = this.size //height
@@ -14,9 +18,9 @@ class Matrix(arr: Collection<DoubleArray>) : ArrayList<DoubleArray>(arr) {
 
     /** Matrix x Matrix multiplication **/
     fun multiply(b: Matrix): Matrix {
-        val result = List(rows) { Array(b[0].size) { .0 }.toDoubleArray() }
+        val result = List(rows) { Array(b.columns) { 0 }.toIntArray() }
         for (i in result.indices) {
-            for (j in 0 until this.rows) {
+            for (j in 0 until b.rows) {
                 for (k in 0 until this.columns) {
                     result[i][j] += this[i][k] * b[k][j]
                 }
@@ -30,9 +34,21 @@ class Matrix(arr: Collection<DoubleArray>) : ArrayList<DoubleArray>(arr) {
         var ans: String
         for (i in this.indices) {
             ans = this[i].contentToString()
-            result += ans
+            result += "$ans\n"
         }
         return result
     }
 
+    fun toPoints(): List<Point> {
+        if (columns != 2) throw UnsupportedOperationException()
+        return map { Point(it[0], it[1]) }
+    }
+
+    override fun add(element: IntArray): Boolean { throw UnsupportedOperationException() }
+    override fun add(index: Int, element: IntArray) { throw UnsupportedOperationException() }
+    override fun remove(element: IntArray): Boolean { throw UnsupportedOperationException() }
+    override fun replaceAll(operator: UnaryOperator<IntArray>) { throw UnsupportedOperationException() }
+    override fun sort(c: Comparator<in IntArray>) { throw UnsupportedOperationException() }
 }
+
+fun row(vararg e: Int) = intArrayOf(*e)
