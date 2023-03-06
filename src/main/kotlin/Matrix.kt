@@ -14,7 +14,7 @@ class Matrix(arr: Collection<DoubleArray>) : ArrayList<DoubleArray>(arr) {
 
     /** Matrix x Matrix multiplication **/
     fun multiply(b: Matrix): Matrix {
-        val result = List(rows) { Array(columns) { .0 }.toDoubleArray() }
+        val result = List(rows) { Array(b[0].size) { .0 }.toDoubleArray() }
         for (i in result.indices) {
             for (j in 0 until this.rows) {
                 for (k in 0 until this.columns) {
