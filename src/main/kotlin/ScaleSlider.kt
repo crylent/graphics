@@ -25,6 +25,7 @@ class ScaleSlider: JSlider() {
             it.key to JLabel("${(it.value * 100).toInt()}%")
         }.toMap())
         paintLabels = true
+        orientation = VERTICAL
     }
 
     val scale
