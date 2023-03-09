@@ -19,6 +19,16 @@ class ControlsOne(private val canvas: Canvas): ControlPanel() {
         row(0, 1)
     )
 
+    private var xReflection = false
+    private var yReflection = false
+
+    private fun resMatrix(): Matrix {
+        var res = matrix.clone() as Matrix
+        if (xReflection) res = res.multiply(xReflectMatrix)
+        if (yReflection) res = res.multiply(yReflectMatrix)
+        return res
+    }
+
     init {
         add(ScaleSlider().apply {
             addChangeListener {
@@ -29,13 +39,13 @@ class ControlsOne(private val canvas: Canvas): ControlPanel() {
         add(JPanel().apply {
             add(JCheckBox("X-reflection").apply {
                 addItemListener {
-                    matrix = matrix.multiply(xReflectMatrix)
+                    xReflection = !xReflection
                     draw()
                 }
             })
             add(JCheckBox("Y-reflection").apply {
                 addItemListener {
-                    matrix = matrix.multiply(yReflectMatrix)
+                    yReflection = !yReflection
                     draw()
                 }
             })
@@ -70,7 +80,7 @@ class ControlsOne(private val canvas: Canvas): ControlPanel() {
 
     private fun draw() {
         canvas.draw {
-            it.drawPoly(matrix, true)
+            it.drawPoly(resMatrix(), true)
         }
     }
 
