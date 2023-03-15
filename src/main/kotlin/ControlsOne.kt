@@ -80,25 +80,9 @@ class ControlsOne(private val canvas: Canvas): ControlPanel() {
 
     private fun draw() {
         canvas.draw {
+            it.drawPoly(matrix, false)
             it.drawPoly(resMatrix(), true)
         }
     }
-
-   /* private fun setTriangle():Matrix{ // input from console
-        println("Enter coordinates")
-        val a = row(readln().toInt(),readln().toInt())
-        val b = row(readln().toInt(),readln().toInt())
-        val c = row(readln().toInt(),readln().toInt())
-        return Matrix(a,b,c)
-    }
-
-    private fun setQuadrilateral():Matrix{ // from console
-        println("Enter coordinates")
-        val a = row(readln().toInt(),readln().toInt())
-        val b = row(readln().toInt(),readln().toInt())
-        val c = row(readln().toInt(),readln().toInt())
-        val d = row(readln().toInt(),readln().toInt())
-        return Matrix(a,b,c,d)
-    }*/
 
 }
