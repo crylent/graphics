@@ -1,7 +1,11 @@
+package controls
+
+import canvas.Canvas
+import canvas.Poly
+import matrix.*
 import java.awt.BorderLayout
 import java.awt.GridLayout
 import javax.swing.*
-
 
 class ControlsOne(private val canvas: Canvas): ControlPanel() {
     private var matrix = Matrix(
@@ -68,20 +72,20 @@ class ControlsOne(private val canvas: Canvas): ControlPanel() {
     }
 
     private fun createSpinner(a: Int, b: Int) = JSpinner().apply {
-        model = SpinnerNumberModel(matrix[a][b],-600,600,10)
+        model = SpinnerNumberModel(matrix[a][b].toInt(),-600,600,10)
         editor = JSpinner.NumberEditor(this).apply {
             textField.columns = 3
         }
         addChangeListener {
-            matrix[a][b]= value as Int //??
+            matrix[a][b]= (value as Int).toDouble() //??
             draw()
         }
     }
 
-    private fun draw() {
+    override fun draw() {
         canvas.draw {
-            it.drawPoly(matrix, false)
-            it.drawPoly(resMatrix(), true)
+            it.drawPoly(matrix, Poly.POLYGON)
+            it.drawPoly(resMatrix(), Poly.FILLED)
         }
     }
 

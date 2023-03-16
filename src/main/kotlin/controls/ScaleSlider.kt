@@ -1,3 +1,5 @@
+package controls
+
 import java.util.*
 import javax.swing.DefaultBoundedRangeModel
 import javax.swing.JLabel

@@ -1,3 +1,5 @@
+package controls
+
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JFrame
@@ -6,7 +8,7 @@ import javax.swing.JPanel
 const val CONTROLS_WIDTH = 200
 const val CONTROLS_HEIGHT = 200
 
-open class ControlPanel : JFrame() {
+abstract class ControlPanel : JFrame() {
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
         preferredSize = Dimension(CONTROLS_WIDTH, CONTROLS_HEIGHT)
@@ -14,4 +16,6 @@ open class ControlPanel : JFrame() {
             layout = BorderLayout()
         }
     }
+
+    internal abstract fun draw()
 }

@@ -1,3 +1,6 @@
+package canvas
+
+import matrix.*
 import java.awt.Graphics
 import java.awt.Point
 import java.awt.Polygon
@@ -36,13 +39,20 @@ class Canvas: JPanel(true) {
         g.drawImage(image, 0, 0, width, height, null)
     }
 
-    fun drawPoly(pointsMatrix: Matrix, filled: Boolean = false) {
+    fun drawPoly(pointsMatrix: Matrix, type: Poly = Poly.LINE) {
         val poly = Polygon()
         pointsMatrix.toPoints().forEach {
             val p = convertPoint(it)
             poly.addPoint(p.x, p.y)
         }
-        gfx.drawPolygon(poly)
-        if (filled) gfx.fillPolygon(poly)
+        when (type) {
+            Poly.FILLED -> gfx.fillPolygon(poly)
+            Poly.POLYGON -> gfx.drawPolygon(poly)
+            Poly.LINE -> gfx.drawPolyline(poly.xpoints, poly.ypoints, poly.npoints)
+        }
     }
+}
+
+enum class Poly {
+    FILLED, POLYGON, LINE
 }
