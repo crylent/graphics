@@ -8,7 +8,7 @@ import java.awt.GridLayout
 import javax.swing.*
 
 class ControlsOne(private val canvas: Canvas): ControlPanel() {
-    private var matrix = Matrix(
+    override var points = Matrix(
         row(50, 0),
         row(0, 50),
         row(150, 150)
@@ -27,13 +27,14 @@ class ControlsOne(private val canvas: Canvas): ControlPanel() {
     private var yReflection = false
 
     private fun resMatrix(): Matrix {
-        var res = matrix.clone() as Matrix
+        var res = points.clone() as Matrix
         if (xReflection) res = res.multiply(xReflectMatrix)
         if (yReflection) res = res.multiply(yReflectMatrix)
         return res
     }
 
     init {
+        canvas.drawAxis = true
         add(ScaleSlider().apply {
             addChangeListener {
                 canvas.scale = scale!!
@@ -71,20 +72,9 @@ class ControlsOne(private val canvas: Canvas): ControlPanel() {
         draw()
     }
 
-    private fun createSpinner(a: Int, b: Int) = JSpinner().apply {
-        model = SpinnerNumberModel(matrix[a][b].toInt(),-600,600,10)
-        editor = JSpinner.NumberEditor(this).apply {
-            textField.columns = 3
-        }
-        addChangeListener {
-            matrix[a][b]= (value as Int).toDouble() //??
-            draw()
-        }
-    }
-
     override fun draw() {
         canvas.draw {
-            it.drawPoly(matrix, Poly.POLYGON)
+            it.drawPoly(points, Poly.POLYGON)
             it.drawPoly(resMatrix(), Poly.FILLED)
         }
     }

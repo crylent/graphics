@@ -1,6 +1,8 @@
 package canvas
 
-import matrix.*
+import matrix.Matrix
+import matrix.orthoProjection
+import matrix.row
 import java.awt.Graphics
 import java.awt.Point
 import java.awt.Polygon
@@ -17,6 +19,8 @@ class Canvas: JPanel(true) {
 
     var scale = 1.0
 
+    var drawAxis = false
+
     init {
         draw {}
     }
@@ -24,8 +28,10 @@ class Canvas: JPanel(true) {
     fun draw(lambda: (Canvas) -> Unit) {
         image = BufferedImage(CANVAS_WIDTH, CANVAS_HEIGHT, TYPE_INT_RGB)
         gfx = image.createGraphics()
-        drawPoly(Matrix(row(Int.MIN_VALUE, 0), row(Int.MAX_VALUE, 0))) // draw X-axis
-        drawPoly(Matrix(row(0, Int.MIN_VALUE + 1), row(0, Int.MAX_VALUE))) // draw Y-axis
+        if (drawAxis) {
+            drawPoly(Matrix(row(Int.MIN_VALUE, 0), row(Int.MAX_VALUE, 0))) // draw X-axis
+            drawPoly(Matrix(row(0, Int.MIN_VALUE + 1), row(0, Int.MAX_VALUE))) // draw Y-axis
+        }
         lambda(this)
         if (graphics != null) paintComponent(graphics)
     }
@@ -50,6 +56,15 @@ class Canvas: JPanel(true) {
             Poly.POLYGON -> gfx.drawPolygon(poly)
             Poly.LINE -> gfx.drawPolyline(poly.xpoints, poly.ypoints, poly.npoints)
         }
+    }
+
+    fun drawPoly3D(pointsMatrix: Matrix, type: Poly = Poly.LINE) {
+        drawPoly(
+            Matrix(pointsMatrix.orthoProjection().map {
+                row(it[0] / it[3], it[1] / it[3])
+            }),
+            type
+        )
     }
 }
 

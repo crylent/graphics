@@ -8,7 +8,7 @@ import kotlin.math.pow
 
 
 class ControlsTwo(private val canvas: Canvas): ControlPanel() {
-    private var points = Matrix(
+    override var points = Matrix(
         row(50, 0),
         row(0, 50),
         row(150, 150),
@@ -27,6 +27,7 @@ class ControlsTwo(private val canvas: Canvas): ControlPanel() {
     ).multiply(bezierMatrix).multiply(points)
 
     init {
+        canvas.drawAxis = true
         add(JPanel().apply {
             layout = GridLayout(3, 2)
             add(createSpinner(0,0))
@@ -39,17 +40,6 @@ class ControlsTwo(private val canvas: Canvas): ControlPanel() {
 
         pack()
         draw()
-    }
-
-    private fun createSpinner(a: Int, b: Int) = JSpinner().apply {
-        model = SpinnerNumberModel(points[a][b].toInt(),-600,600,10)
-        editor = JSpinner.NumberEditor(this).apply {
-            textField.columns = 3
-        }
-        addChangeListener {
-            points[a][b]= (value as Int).toDouble() //??
-            draw()
-        }
     }
 
     override fun draw() {

@@ -54,5 +54,5 @@ class Matrix(arr: Collection<DoubleArray>): ArrayList<DoubleArray>(arr) {
     override fun sort(c: Comparator<in DoubleArray>) { throw UnsupportedOperationException() }
 }
 
-fun row(vararg e: Int) = e.map { it.toDouble() }.toDoubleArray()
+fun row(vararg e: Number) = e.map { it.toDouble() }.toDoubleArray()
 fun row(vararg e: Double) = doubleArrayOf(*e)
