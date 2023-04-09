@@ -3,6 +3,7 @@ package canvas
 import matrix.Matrix
 import matrix.orthoProjection
 import matrix.row
+import java.awt.Color
 import java.awt.Graphics
 import java.awt.Point
 import java.awt.Polygon
@@ -45,7 +46,8 @@ class Canvas: JPanel(true) {
         g.drawImage(image, 0, 0, width, height, null)
     }
 
-    fun drawPoly(pointsMatrix: Matrix, type: Poly = Poly.LINE) {
+    fun drawPoly(pointsMatrix: Matrix, type: Poly = Poly.LINE, color: Color = Color.WHITE) {
+        gfx.color = color
         val poly = Polygon()
         pointsMatrix.toPoints().forEach {
             val p = convertPoint(it)

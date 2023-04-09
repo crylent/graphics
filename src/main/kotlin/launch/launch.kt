@@ -12,6 +12,7 @@ fun launch(lab: Int) {
                 1 -> ControlsOne(canvas).isVisible = true
                 2 -> ControlsTwo(canvas).isVisible = true
                 3 -> ControlsThree(canvas).isVisible = true
+                4 -> ControlsFour(canvas).isVisible = true
             }
         }
     }
