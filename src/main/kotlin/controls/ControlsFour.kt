@@ -104,18 +104,19 @@ class ControlsFour(private val canvas: Canvas): ControlPanel(400, 200) {
     }
 
     private fun isOutside(line: Matrix) =
-        (line[0].x < rect[0].x && line[1].x < rect[0].x)
-                || (line[0].x > rect[1].x && line[1].x > rect[1].x)
-                || (line[0].y < rect[0].y && line[1].y < rect[0].y)
-                || (line[0].y > rect[1].y && line[1].y > rect[1].y)
+        (line[0].x <= rect[0].x && line[1].x <= rect[0].x)
+                || (line[0].x >= rect[1].x && line[1].x >= rect[1].x)
+                || (line[0].y <= rect[0].y && line[1].y <= rect[0].y)
+                || (line[0].y >= rect[1].y && line[1].y >= rect[1].y)
 
     private fun isInside(line: Matrix) =
-        !(line[0].x <= rect[0].x || line[0].x >= rect[1].x)
-                && !(line[1].x <= rect[0].x || line[1].x >= rect[1].x)
-                && !(line[0].y <= rect[0].y || line[0].y >= rect[1].y)
-                && !(line[1].y <= rect[0].y || line[1].y >= rect[1].y)
+        !(line[0].x < rect[0].x || line[0].x > rect[1].x)
+                && !(line[1].x < rect[0].x || line[1].x > rect[1].x)
+                && !(line[0].y < rect[0].y || line[0].y > rect[1].y)
+                && !(line[1].y < rect[0].y || line[1].y > rect[1].y)
 
     private fun truncate(line: Matrix): Matrix? {
+        //println("${lines.indexOf(line)}: ${isOutside(line)} ${isInside(line)}")
         if (isOutside(line)) return null
         if (isInside(line)) return line
         val deltaX = line[1].x - line[0].x
@@ -126,12 +127,30 @@ class ControlsFour(private val canvas: Canvas): ControlPanel(400, 200) {
             (rect[0].y - line[0].y) / deltaY,
             (rect[1].y - line[0].y) / deltaY
         )
-        println("${lines.indexOf(line)}: $t")
-        val t1 = max(t[0], t[2]).coerceIn(.0, 1.0)
-        val t2 = min(t[1], t[3]).coerceIn(.0, 1.0)
-        return Matrix(
+        val t1 = (
+                if (t[0] > 0 && t[0] < 1 && t[2] > 0 && t[2] < 1) max(t[0], t[2])
+                else if (t[0] <= 0 && t[2] <= 0) 0
+                else if (t[0] >= 1 && t[2] >= 1) 1
+                else if ((t[0] >= 1 || t[0] <= 0) && t[2] > 0 && t[2] < 1) t[2]
+                else if ((t[2] >= 1 || t[2] <= 0) && t[0] > 0 && t[0] < 1) t[0]
+                else if (line[0].x in rect[0].x..rect[1].x && line[0].y in rect[0].y..rect[1].y) 0
+                else 1
+                ).toDouble()
+        val t2 = (
+                if (t[1] > 0 && t[1] < 1 && t[3] > 0 && t[3] < 1) min(t[1], t[3])
+                else if (t[1] <= 0 && t[3] <= 0) 0
+                else if (t[1] >= 1 && t[3] >= 1) 1
+                else if ((t[1] >= 1 || t[1] <= 0) && t[3] > 0 && t[3] < 1) t[3]
+                else if ((t[3] >= 1 || t[3] <= 0) && t[1] > 0 && t[1] < 1) t[1]
+                else if (line[0].x in rect[0].x..rect[1].x && line[0].y in rect[0].y..rect[1].y) 0
+                else 1
+                ).toDouble()
+        //println("${lines.indexOf(line)}: $t t1: $t1 t2: $t2")
+        val res = Matrix(
             row(line[0].x + (line[1].x - line[0].x) * t1, line[0].y + (line[1].y - line[0].y) * t1),
             row(line[0].x + (line[1].x - line[0].x) * t2, line[0].y + (line[1].y - line[0].y) * t2)
         )
+        return if (!isOutside(res)) res
+        else null
     }
 }
