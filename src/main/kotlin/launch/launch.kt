@@ -13,6 +13,7 @@ fun launch(lab: Int) {
                 2 -> ControlsTwo(canvas).isVisible = true
                 3 -> ControlsThree(canvas).isVisible = true
                 4 -> ControlsFour(canvas).isVisible = true
+                5 -> ControlsFive(canvas).isVisible = true
             }
         }
     }

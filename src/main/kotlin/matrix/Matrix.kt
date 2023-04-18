@@ -52,6 +52,40 @@ class Matrix(arr: Collection<DoubleArray>): ArrayList<DoubleArray>(arr) {
     override fun remove(element: DoubleArray): Boolean { throw UnsupportedOperationException() }
     override fun replaceAll(operator: UnaryOperator<DoubleArray>) { throw UnsupportedOperationException() }
     override fun sort(c: Comparator<in DoubleArray>) { throw UnsupportedOperationException() }
+
+    operator fun times(multiplier: Number): Matrix {
+        val arr = ArrayList<DoubleArray>(rows)
+        for (i in 0 until rows) {
+            arr.add(DoubleArray(columns))
+            for (j in 0 until columns) {
+                arr[i][j] = this[i][j] * multiplier.toDouble()
+            }
+        }
+        return Matrix(arr)
+    }
+
+    operator fun plus(second: Matrix): Matrix {
+        if (rows != second.rows || columns != second.columns) { throw UnsupportedOperationException() }
+        val arr = ArrayList<DoubleArray>(rows)
+        for (i in 0 until rows) {
+            arr.add(DoubleArray(columns))
+            for (j in 0 until columns) {
+                arr[i][j] = this[i][j] + second[i][j]
+            }
+        }
+        return Matrix(arr)
+    }
+
+    operator fun plus(num: Number): Matrix {
+        val arr = ArrayList<DoubleArray>(rows)
+        for (i in 0 until rows) {
+            arr.add(DoubleArray(columns))
+            for (j in 0 until columns) {
+                arr[i][j] = this[i][j] + num.toDouble()
+            }
+        }
+        return Matrix(arr)
+    }
 }
 
 fun row(vararg e: Number) = e.map { it.toDouble() }.toDoubleArray()

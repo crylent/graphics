@@ -11,6 +11,15 @@ import javax.swing.SpinnerNumberModel
 const val CONTROLS_WIDTH = 200
 const val CONTROLS_HEIGHT = 200
 
+internal val DoubleArray.x: Double
+    get() = this[0]
+
+internal val DoubleArray.y: Double
+    get() = this[1]
+
+internal val DoubleArray.z: Double
+    get() = this[2]
+
 abstract class ControlPanel(width: Int = CONTROLS_WIDTH, height: Int = CONTROLS_HEIGHT): JFrame() {
     internal abstract var points: Matrix
 

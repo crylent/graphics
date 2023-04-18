@@ -13,12 +13,6 @@ import javax.swing.JPanel
 import kotlin.math.max
 import kotlin.math.min
 
-private val DoubleArray.x: Double
-    get() = this[0]
-
-private val DoubleArray.y: Double
-    get() = this[1]
-
 class ControlsFour(private val canvas: Canvas): ControlPanel(400, 200) {
     override var points = Matrix(
         row(-150, -150),

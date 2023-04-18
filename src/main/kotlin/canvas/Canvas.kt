@@ -46,6 +46,14 @@ class Canvas: JPanel(true) {
         g.drawImage(image, 0, 0, width, height, null)
     }
 
+    fun drawPoint3D(pointMatrix: Matrix, color: Color = Color.WHITE) {
+        gfx.color = color
+        val p = convertPoint(Matrix(pointMatrix.orthoProjection().map {
+            row(it[0] / it[3], it[1] / it[3])
+        }).toPoints()[0])
+        gfx.drawLine(p.x, p.y, p.x, p.y)
+    }
+
     fun drawPoly(pointsMatrix: Matrix, type: Poly = Poly.LINE, color: Color = Color.WHITE) {
         gfx.color = color
         val poly = Polygon()
