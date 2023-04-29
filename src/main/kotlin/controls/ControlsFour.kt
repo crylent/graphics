@@ -88,7 +88,7 @@ class ControlsFour(private val canvas: Canvas): ControlPanel(400, 200) {
         canvas.draw {
             it.drawPoly(points, Poly.POLYGON)
             lines.forEach { matrix ->
-                it.drawPoly(matrix, Poly.LINE, Color.GREEN)//
+                it.drawPoly(matrix, Poly.LINE, Color.GREEN) //
                 val truncated = truncate(matrix)
                 if (truncated != null) {
                     it.drawPoly(truncated, Poly.LINE)
