@@ -52,10 +52,13 @@ class ControlsFive(private val canvas: Canvas): ControlPanel(300, 250) {
         canvas.draw {
             val res = resMatrix()
             it.drawPoly3D(res, Poly.POLYGON)
-            val location = computeLinesLocation(points[0], points[1], points[2], points[3])
-            val (a, b) = when (location) {
-                LinesLocation.FIRST_FRONT -> Pair(res[0], res[1])
-                LinesLocation.SECOND_FRONT -> Pair(res[2], res[3])
+            val l1 = computeLinesLocation(points[0], points[1], points[2], points[3])
+            val l =
+                if (l1 != LinesLocation.NOT_INTERSECTING) l1
+                else computeLinesLocation(points[1], points[2], points[3], points[0])
+            val (a, b) = when (l) {
+                LinesLocation.FIRST_FRONT -> if (l == l1) Pair(res[0], res[1]) else Pair(res[1], res[2])
+                LinesLocation.SECOND_FRONT -> if (l == l1) Pair(res[2], res[3]) else Pair(res[3], res[0])
                 else -> Pair(null, null)
             }
             for (i in 0..100) {
